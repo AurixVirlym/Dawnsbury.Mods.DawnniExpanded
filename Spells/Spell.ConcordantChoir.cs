@@ -80,11 +80,15 @@ public class SpellConcordantChoir
     }
     public static void LoadMod()
     {
-
-
-        Id = ModManager.RegisterNewSpell("ConcordantChoir", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeConcordantChoirSpell(spellcaster, spellLevel, inCombat)
-        );
-
+        try
+        {
+            Id = ModManager.RegisterNewSpell("ConcordantChoir", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeConcordantChoirSpell(spellcaster, spellLevel, inCombat));
+        }
+        catch (System.ArgumentException ex)
+        {
+            Dawnsbury.IO.GeneralLog.Log("Skipped registering spell \"ConcordantChoir\". This spell may already be provided by another mod.\n" + ex.ToString());
+            Id = SpellId.None;
+        }
     }
 }
 
